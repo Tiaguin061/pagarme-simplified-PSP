@@ -7,7 +7,7 @@
     * Data de validade do cartão
     * Código de verificação do cartão (CVV)
 ___
-2. O serviço deve retornar uma lista das transações já criadas
+2. ✅ O serviço deve retornar uma lista das transações já criadas
 ___
 3. ✅ Como o número do cartão é uma informação sensível, o serviço só pode armazenar e retornar os 4 últimos dígitos do cartão.
 ___
