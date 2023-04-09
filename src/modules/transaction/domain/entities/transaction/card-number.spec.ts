@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { CardNumber } from './card-number';
+import { InvalidCardNumberError } from './errors/InvalidCardNumberError';
 
 describe('CardNumber entity domain', () => {
   it('Should be able to create', () => {
@@ -9,9 +10,10 @@ describe('CardNumber entity domain', () => {
     expect(cardNumberOrError.isRight()).toBeTruthy();
   });
 
-  it('Should be able to return an error if it is NAN ', () => {
+  it('Should be able to return an error if it is invalid', () => {
     const cardNumberOrError = CardNumber.create(Number('invalid card number'));
 
     expect(cardNumberOrError.isLeft()).toBeTruthy();
+    expect(cardNumberOrError.value).toBeInstanceOf(InvalidCardNumberError)
   });
 })
