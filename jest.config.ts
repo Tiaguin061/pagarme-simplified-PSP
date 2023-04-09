@@ -12,9 +12,14 @@ const config: Config = {
 
   collectCoverageFrom: [
     'src/**/*.ts',
+
     '!src/modules/**/infra/repositories/**',
     '!src/modules/**/domain/repositories/**',
+
     '!src/core/logic/*.ts',
+
+    '!src/**/errors/*.ts',
+
     '!src/infra/**/*.ts',
   ],
   collectCoverage: true,
