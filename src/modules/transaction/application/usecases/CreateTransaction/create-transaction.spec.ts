@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
+import { InvalidCardNumberError } from '@root/modules/transaction/domain/entities/transaction/errors/InvalidCardNumberError';
 import { ITransactionRepository } from '@root/modules/transaction/domain/repositories/transaction-repository';
 import { InMemoryTransactionRepository } from '@root/modules/transaction/infra/repositories/in-memory/transactions-repository';
 import { CreateTransaction } from './create-transaction';
@@ -37,5 +38,6 @@ describe('Create Transaction use-case', () => {
     });
 
     expect(response.isLeft()).toBeTruthy();
+    expect(response.value).toBeInstanceOf(InvalidCardNumberError)
   });
 })
