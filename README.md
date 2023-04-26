@@ -11,11 +11,11 @@ ___
 ___
 3. ✅ Como o número do cartão é uma informação sensível, o serviço só pode armazenar e retornar os 4 últimos dígitos do cartão.
 ___
-4. O serviço deve criar os recebíveis do cliente (`payables`), com as seguintes regras:
-    * Se a transação for feita com um cartão de débito:
+4. ✅ O serviço deve criar os recebíveis do cliente (`payables`), com as seguintes regras:
+    * ✅ Se a transação for feita com um cartão de débito:
         * O payable deve ser criado com status = `paid` (indicando que o cliente já recebeu esse valor)
         * O payable deve ser criado com a data de pagamento (payment_date) = data da criação da transação (D+0).
-    * Se a transação for feita com um cartão de crédito:
+    * ✅ Se a transação for feita com um cartão de crédito:
         * O payable deve ser criado com status = `waiting_funds` (indicando que o cliente vai receber esse dinheiro no futuro)
         * O payable deve ser criado com a data de pagamento (payment_date) = data da criação da transação + 30 dias (D+30).
 ___
