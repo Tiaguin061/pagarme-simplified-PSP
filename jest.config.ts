@@ -21,6 +21,8 @@ const config: Config = {
     '!src/**/errors/*.ts',
 
     '!src/infra/**/*.ts',
+
+    '!src/shared/providers/**/*.ts',
   ],
   collectCoverage: true,
   coverageDirectory: 'coverage',
