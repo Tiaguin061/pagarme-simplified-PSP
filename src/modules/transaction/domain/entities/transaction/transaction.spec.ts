@@ -15,6 +15,7 @@ describe('Transaction entity domain', () => {
       card_number,
       card_verification_code: 123,
       payment_method: 'credit_card',
+      value: 10,
     });
 
     expect(transactionOrError.isRight()).toBeTruthy();
@@ -24,6 +25,7 @@ describe('Transaction entity domain', () => {
       card_verification_code: 123,
       payment_method: 'credit_card',
       card_expiration_date,
+      value: 10,
     });
     expect(transactionOrError.value.card_number).toBeInstanceOf(CardNumber);
   });
