@@ -23,6 +23,6 @@ ___
     * 3% para transações feitas com um cartão de débito
     * 5% para transações feitas com um cartão de crédito
 ___
-6. O serviço deve prover um meio de consulta para que o cliente visualize seu saldo com as seguintes informações:
+6. ✅ O serviço deve prover um meio de consulta para que o cliente visualize seu saldo com as seguintes informações:
     * Saldo `available` (disponível): tudo que o cliente já recebeu (payables `paid`)
     * Saldo `waiting_funds` (a receber): tudo que o cliente tem a receber (payables `waiting_funds`)
