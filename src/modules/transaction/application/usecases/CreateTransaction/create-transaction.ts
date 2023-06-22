@@ -1,11 +1,11 @@
 import { Either, left, right } from '@root/core/logic/Either';
 import { PaymentMethod, Transaction } from '@root/modules/transaction/domain/entities/transaction/transaction';
 
-import { CardNumber } from '@root/modules/transaction/domain/entities/transaction/card-number';
 import { CreatePayable } from '@root/modules/payable/application/usecases/CreatePayable/create-payable';
-import { ITransactionRepository } from '@root/modules/transaction/domain/repositories/transaction-repository';
-import { InvalidCardNumberError } from '@root/modules/transaction/domain/entities/transaction/errors/InvalidCardNumberError';
 import { Payable } from '@root/modules/payable/domain/entities/payable';
+import { CardNumber } from '@root/modules/transaction/domain/entities/transaction/card-number';
+import { InvalidCardNumberError } from '@root/modules/transaction/domain/entities/transaction/errors/InvalidCardNumberError';
+import { ITransactionRepository } from '@root/modules/transaction/domain/repositories/transaction-repository';
 
 type CreateTransactionRequest = {
   description?: string;
@@ -14,6 +14,7 @@ type CreateTransactionRequest = {
   card_holder_name: string;
   card_expiration_date: Date;
   card_verification_code: number;
+  value: number;
 }
 
 type CreateTransactionResponse = Either<
@@ -30,7 +31,7 @@ export class CreateTransaction {
     private createPayable: CreatePayable,
   ) { }
   async execute(data: CreateTransactionRequest): Promise<CreateTransactionResponse> {
-    const { card_number } = data;
+    const { card_number, value, payment_method } = data;
 
     const cardNumberOrError = CardNumber.create(card_number);
 
@@ -38,8 +39,19 @@ export class CreateTransaction {
       return left(cardNumberOrError.value);
     }
 
+    const feeRateOptions = {
+      debit_card: 0.03,
+      credit_card: 0.05,
+    };
+
+    const feeRate = feeRateOptions[payment_method];
+
+    let fee = value * feeRate;
+    let payableAmount = value - fee;
+
     const transactionOrError = Transaction.create({
       ...data,
+      value: payableAmount,
       card_number: cardNumberOrError.value
     });
 
