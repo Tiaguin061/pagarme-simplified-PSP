@@ -12,7 +12,8 @@ describe('Payable Entity domain', () => {
       card_number: CardNumber.create(123456789).value as CardNumber,
       card_verification_code: 123,
       payment_method: 'credit_card',
-      description: 'Fake description'
+      description: 'Fake description',
+      value: 10
     }).value;
 
     const payable = new Payable({
@@ -33,7 +34,8 @@ describe('Payable Entity domain', () => {
       card_number: CardNumber.create(123456789).value as CardNumber,
       card_verification_code: 123,
       payment_method: 'credit_card',
-      description: 'Fake description'
+      description: 'Fake description',
+      value: 10
     }).value;
 
     const payable = new Payable({

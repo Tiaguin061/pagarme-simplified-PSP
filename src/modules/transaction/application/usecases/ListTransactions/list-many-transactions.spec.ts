@@ -1,10 +1,10 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
 import { CardNumber } from '@root/modules/transaction/domain/entities/transaction/card-number';
-import { Transaction } from '@root/modules/transaction/domain/entities/transaction/transaction';
 import { ITransactionRepository } from '@root/modules/transaction/domain/repositories/transaction-repository';
 import { InMemoryTransactionRepository } from '@root/modules/transaction/infra/repositories/in-memory/transactions-repository';
 import { ListManyTransaction } from './list-many-transactions';
+import { Transaction } from '@root/modules/transaction/domain/entities/transaction/transaction';
 
 let listManyTransaction: ListManyTransaction;
 let transactionRepository: ITransactionRepository;
@@ -21,7 +21,8 @@ describe('List Many Transaction use-case', () => {
       card_number: CardNumber.create(123456789).value as CardNumber,
       card_verification_code: 123,
       payment_method: 'credit_card',
-      description: 'Fake description'
+      description: 'Fake description',
+      value: 10,
     });
 
     await transactionRepository.create(transaction.value);

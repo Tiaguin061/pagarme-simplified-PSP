@@ -26,7 +26,8 @@ describe('Create Payable usecase', () => {
       card_number: CardNumber.create(123456789).value as CardNumber,
       card_verification_code: 123,
       payment_method: 'credit_card',
-      description: 'Fake description'
+      description: 'Fake description',
+      value: 10
     }).value;
 
     const response = await createPayable.execute({
@@ -43,7 +44,9 @@ describe('Create Payable usecase', () => {
       card_number: CardNumber.create(123456789).value as CardNumber,
       card_verification_code: 123,
       payment_method: 'credit_card',
-      description: 'Fake description'
+      description: 'Fake description',
+      value: 10
+
     }).value;
 
     const response = await createPayable.execute({
@@ -68,7 +71,8 @@ describe('Create Payable usecase', () => {
       card_number: CardNumber.create(123456789).value as CardNumber,
       card_verification_code: 123,
       payment_method: 'debit_card',
-      description: 'Fake description'
+      description: 'Fake description',
+      value: 10
     }).value;
 
     const response = await createPayable.execute({
