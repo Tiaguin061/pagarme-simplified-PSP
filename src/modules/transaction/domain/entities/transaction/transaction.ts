@@ -1,11 +1,12 @@
 import { Either, right } from '@root/core/logic/Either';
 
-import { Entity } from '@root/core/domain/Entity';
 import { CardNumber } from './card-number';
+import { Entity } from '@root/core/domain/Entity';
 
 export type PaymentMethod = 'debit_card' | 'credit_card';
 
 export interface ITransaction {
+  value: number;
   description?: string;
   payment_method: PaymentMethod;
   card_number: CardNumber;
@@ -17,6 +18,10 @@ export interface ITransaction {
 export class Transaction extends Entity<ITransaction> {
   constructor(props: ITransaction, id?: string) {
     super(props, id);
+  }
+
+  get value() {
+    return this.props.value;
   }
 
   get description() {
