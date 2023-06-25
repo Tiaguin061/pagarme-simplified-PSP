@@ -16,7 +16,7 @@ type CreateTransactionRequest = {
 }
 
 type CreateTransactionResponse = Either<
-  InvalidCardNumberError,
+  null | InvalidCardNumberError,
   Transaction
 >;
 
@@ -48,10 +48,6 @@ export class CreateTransaction {
       value: payableAmount,
       card_number: cardNumberOrError.value
     });
-
-    if (transactionOrError.isLeft()) {
-      return left(transactionOrError.value);
-    }
 
     const transaction = transactionOrError.value;
 
