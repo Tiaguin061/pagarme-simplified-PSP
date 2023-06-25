@@ -1,11 +1,7 @@
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
 import { CreateTransaction } from './create-transaction';
-import { DateFnsProvider } from '@root/shared/providers/date/implementations/date-fns.provider';
-import { DateProvider } from '@root/shared/providers/date/models/date-provider';
-import { IPayableRepository } from '@root/modules/payable/domain/repositories/payable-repository';
 import { ITransactionRepository } from '@root/modules/transaction/domain/repositories/transaction-repository';
-import { InMemoryPayablesRepository } from '@root/modules/payable/infra/repositories/in-memory/payables-repository';
 import { InMemoryTransactionRepository } from '@root/modules/transaction/infra/repositories/in-memory/transactions-repository';
 import { InvalidCardNumberError } from '@root/modules/transaction/domain/entities/transaction/errors/InvalidCardNumberError';
 import { PaymentMethod } from '@root/modules/transaction/domain/entities/transaction/transaction';
@@ -13,15 +9,9 @@ import { PaymentMethod } from '@root/modules/transaction/domain/entities/transac
 let createTransaction: CreateTransaction;
 let transactionRepository: ITransactionRepository;
 
-let payableRepository: IPayableRepository;
-let dateProvider: DateProvider;
-
 describe('Create Transaction use-case', () => {
   beforeAll(() => {
     transactionRepository = new InMemoryTransactionRepository();
-
-    payableRepository = new InMemoryPayablesRepository();
-    dateProvider = new DateFnsProvider();
 
     createTransaction = new CreateTransaction(transactionRepository);
   })
