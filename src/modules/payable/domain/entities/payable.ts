@@ -20,6 +20,22 @@ export class Payable extends Entity<IPayable> {
     super(props, id);
   }
 
+  get payment_date() {
+    return this.props.payment_date;
+  }
+
+  get transaction_id() {
+    return this.props.transaction_id;
+  }
+
+  get status() {
+    return this.props.status;
+  }
+
+  get transaction() {
+    return this.props.transaction;
+  }
+
   static create(props: IPayable, id?: string): Either<null, Payable> {
     const payable = new Payable(props, id);
 
