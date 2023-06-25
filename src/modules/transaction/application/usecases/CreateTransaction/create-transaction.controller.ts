@@ -3,6 +3,7 @@ import { clientError, created, fail } from '@root/core/infra/HttpResponse';
 import { Controller } from '@root/core/infra/Controller';
 import { CreatePayable } from '@root/modules/payable/application/usecases/CreatePayable/create-payable';
 import { CreateTransaction } from './create-transaction';
+import { PayableMapper } from '@root/modules/payable/domain/mappers/payable-mapper';
 import { PaymentMethod } from '@root/modules/transaction/domain/entities/transaction/transaction';
 import { TransactionMapper } from '@root/modules/transaction/domain/mappers/transaction-mapper';
 
@@ -42,6 +43,9 @@ export class CreateTransactionController implements Controller {
 
       const success = {
         transaction: TransactionMapper.transformForResponse(transactionOrError.value),
+        payable: PayableMapper.transformForResponse(payableOrError.value, {
+          transaction: true,
+        }),
       };
 
       return created(success);
