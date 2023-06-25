@@ -11,20 +11,27 @@ describe('Payable Entity domain', () => {
       card_holder_name: 'John Doe',
       card_number: CardNumber.create(123456789).value as CardNumber,
       card_verification_code: 123,
-      payment_method: 'credit_card',
+      payment_method: 'debit_card',
       description: 'Fake description',
       value: 10
     }).value;
 
-    const payable = new Payable({
-      payment_date: new Date(),
-      status: 'paid',
+    const payment_date = new Date();
+    const status = 'paid';
+
+    const payableOrError = Payable.create({
+      payment_date,
+      status,
       transaction_id: transaction.id,
       transaction,
     });
 
-    expect(payable).toHaveProperty('id');
-    expect(payable.props.status).toStrictEqual('paid');
+    expect(payableOrError.value).toMatchObject({
+      payment_date,
+      status,
+      transaction_id: transaction.id,
+      transaction,
+    });
   });
 
   it('it should be able create with waiting_funds status', () => {
@@ -38,14 +45,21 @@ describe('Payable Entity domain', () => {
       value: 10
     }).value;
 
-    const payable = new Payable({
-      payment_date: new Date(),
-      status: 'waiting_funds',
+    const payment_date = new Date();
+    const status = 'waiting_funds';
+
+    const payableOrError = Payable.create({
+      payment_date,
+      status,
       transaction_id: transaction.id,
       transaction,
     });
 
-    expect(payable).toHaveProperty('id');
-    expect(payable.props.status).toStrictEqual('waiting_funds');
+    expect(payableOrError.value).toMatchObject({
+      payment_date,
+      status,
+      transaction_id: transaction.id,
+      transaction,
+    });
   });
 });
