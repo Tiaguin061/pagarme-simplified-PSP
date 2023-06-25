@@ -1,11 +1,9 @@
 import { Either, left, right } from '@root/core/logic/Either';
 import { PaymentMethod, Transaction } from '@root/modules/transaction/domain/entities/transaction/transaction';
 
-import { CreatePayable } from '@root/modules/payable/application/usecases/CreatePayable/create-payable';
-import { Payable } from '@root/modules/payable/domain/entities/payable';
 import { CardNumber } from '@root/modules/transaction/domain/entities/transaction/card-number';
-import { InvalidCardNumberError } from '@root/modules/transaction/domain/entities/transaction/errors/InvalidCardNumberError';
 import { ITransactionRepository } from '@root/modules/transaction/domain/repositories/transaction-repository';
+import { InvalidCardNumberError } from '@root/modules/transaction/domain/entities/transaction/errors/InvalidCardNumberError';
 
 type CreateTransactionRequest = {
   description?: string;
@@ -19,16 +17,12 @@ type CreateTransactionRequest = {
 
 type CreateTransactionResponse = Either<
   InvalidCardNumberError,
-  {
-    transaction: Transaction;
-    payable: Payable;
-  }
+  Transaction
 >;
 
 export class CreateTransaction {
   constructor(
     private transactionRepository: ITransactionRepository,
-    private createPayable: CreatePayable,
   ) { }
   async execute(data: CreateTransactionRequest): Promise<CreateTransactionResponse> {
     const { card_number, value, payment_method } = data;
@@ -55,22 +49,15 @@ export class CreateTransaction {
       card_number: cardNumberOrError.value
     });
 
+    if (transactionOrError.isLeft()) {
+      return left(transactionOrError.value);
+    }
+
     const transaction = transactionOrError.value;
 
     await this.transactionRepository.create(transaction);
 
-    const payableOrError = await this.createPayable.execute({
-      transaction
-    });
-
-    if (payableOrError.isLeft()) {
-      return left(payableOrError.value);
-    }
-
-    return right({
-      transaction,
-      payable: payableOrError.value
-    });
+    return right(transaction);
   }
 }
 
