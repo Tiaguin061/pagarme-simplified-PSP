@@ -6,8 +6,14 @@ import { Payable } from '@root/modules/payable/domain/entities/payable';
 export type ListBalanceResponse = Either<
   null,
   {
-    available: Payable[],
-    waiting_funds: Payable[],
+    available: {
+      payables: Payable[];
+      balance: number;
+    };
+    waiting_funds: {
+      payables: Payable[];
+      balance: number;
+    };
   }
 >;
 
@@ -20,9 +26,23 @@ export class ListBalance {
     const available = await this.payableRepository.findManyByStatus('paid');
     const waiting_funds = await this.payableRepository.findManyByStatus('waiting_funds');
 
+    const availableBalance = available.reduce((acc, current) => {
+      return acc + current.transaction.value
+    }, 0);
+
+    const waitingFundsBalance = waiting_funds.reduce((acc, current) => {
+      return acc + current.transaction.value
+    }, 0);
+
     return right({
-      available,
-      waiting_funds
+      available: {
+        payables: available,
+        balance: availableBalance,
+      },
+      waiting_funds: {
+        payables: waiting_funds,
+        balance: waitingFundsBalance,
+      },
     });
   }
 }
