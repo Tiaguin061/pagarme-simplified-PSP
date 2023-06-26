@@ -57,8 +57,14 @@ describe('List Balance usecase', () => {
 
     expect(response.isRight()).toBe(true);
     expect(response.value).toStrictEqual({
-      waiting_funds: [payableWithWaitingFunds],
-      available: [payableWithPaid],
+      waiting_funds: {
+        payables: [payableWithWaitingFunds],
+        balance: transactionWithCreditCard.value,
+      },
+      available: {
+        payables: [payableWithPaid],
+        balance: transactionWithDebitCard.value,
+      },
     });
   });
 });
